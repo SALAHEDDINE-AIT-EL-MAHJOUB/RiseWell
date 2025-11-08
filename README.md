@@ -1,6 +1,17 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/TIr6ybvI)
+
 # RiseWell - Healthy Coach Application 🏋️‍♂️💪
 
-Application mobile Android de coaching santé avec plusieurs personas IA pilotés par Ollama en local.
+> **Université Côte d'Azur - DS4H - EMSI - IA2**  
+> Cours de Programmation Mobile et IA - Leo Donati  
+> TD3 - Soyez créatif avec l'IA
+
+Application mobile Android de coaching santé avec plusieurs personas IA pilotés par Ollama (local) et Gemini AI (backup cloud).
+
+## 👥 Membres du groupe
+
+- [Votre nom]
+- [Nom coéquipier]
 
 ## 📱 Fonctionnalités
 
@@ -12,6 +23,11 @@ Application mobile Android de coaching santé avec plusieurs personas IA piloté
   - 💪 **Motivateur** : Messages motivants, micro-objectifs quotidiens
   - 🩺 **Consultant Bien-être** : Analyse globale, roadmaps santé
 
+- ✅ **Dual AI Backend (Ollama + Gemini)**
+  - Ollama local (prioritaire) pour confidentialité
+  - Gemini AI cloud comme backup automatique
+  - Bascule transparente si Ollama indisponible
+
 - ✅ **Profil Utilisateur**
   - Âge, poids, taille
   - Niveau d'activité (sédentaire, actif, très actif)
@@ -22,6 +38,7 @@ Application mobile Android de coaching santé avec plusieurs personas IA piloté
   - Actions rapides (plan du jour, conseils rapides, plans hebdomadaires)
   - Historique des conversations
   - Messages de bienvenue personnalisés
+  - Indicateurs de chargement et gestion d'erreurs
 
 - ✅ **Persistance des données**
   - Base de données Room locale
@@ -33,13 +50,16 @@ Application mobile Android de coaching santé avec plusieurs personas IA piloté
 
 ### Stack Technique
 
-- **Frontend** : Android (Kotlin) + Jetpack Compose
-- **Injection de dépendances** : Hilt/Dagger
+- **Frontend** : Android (Kotlin 2.0.21) + Jetpack Compose + Material3
+- **Injection de dépendances** : Hilt/Dagger 2.48.1 (avec KSP)
 - **Navigation** : Navigation Compose
-- **Base de données** : Room
-- **Réseau** : Retrofit + OkHttp
+- **Base de données** : Room 2.6.0
+- **Réseau** : Retrofit 2.9.0 + OkHttp 4.11.0
 - **Concurrence** : Coroutines + Flow
-- **IA** : Ollama (API locale)
+- **IA** : 
+  - Ollama (API locale - llama3)
+  - Google Gemini AI 0.1.2 (backup cloud)
+- **Build** : Gradle 8.13.0 + Java 20
 
 ### Structure du Projet
 
@@ -57,8 +77,9 @@ app/
 │   │   ├── Conversation.kt
 │   │   ├── Message.kt
 │   │   └── PersonaSetting.kt
-│   ├── network/            # API Ollama
-│   │   └── OllamaApi.kt
+│   ├── network/            # APIs
+│   │   ├── OllamaApi.kt   # API Ollama (local)
+│   │   └── GeminiApi.kt   # API Gemini (backup)
 │   └── repository/         # Couche Repository
 │       └── RiseWellRepository.kt
 ├── di/                     # Dependency Injection
@@ -67,6 +88,9 @@ app/
 │   ├── screens/
 │   │   ├── home/          # Écran de sélection des personas
 │   │   ├── chat/          # Écran de conversation
+│   │   │   ├── ChatScreen.kt
+│   │   │   ├── ChatViewModel.kt
+│   │   │   └── ChatUtils.kt
 │   │   └── profile/       # Écran de profil utilisateur
 │   └── theme/             # Thème Material3
 └── MainActivity.kt
@@ -77,10 +101,11 @@ app/
 ### Prérequis
 
 1. **Android Studio** (dernière version stable)
-2. **JDK 11** ou supérieur
-3. **Ollama** installé et en cours d'exécution
+2. **JDK 17+** (ou JDK 20)
+3. **Ollama** installé et en cours d'exécution (optionnel grâce au backup Gemini)
+4. **Clé API Gemini** (gratuite sur [Google AI Studio](https://makersuite.google.com/app/apikey))
 
-### Installation d'Ollama
+### Installation d'Ollama (Optionnel)
 
 ```bash
 # Télécharger depuis https://ollama.ai
@@ -92,13 +117,16 @@ ollama serve
 
 1. Cloner le dépôt :
 ```bash
-git clone <votre-repo>
-cd RiseWell
+git clone https://github.com/UniCA-EMSI-CASA-IA2/td3-2025-salah_yahya.git
+cd td3-2025-salah_yahya/RiseWell
 ```
 
-2. Ouvrir dans Android Studio
+2. Configurer la clé API Gemini dans `gradle.properties` :
+```properties
+GEMINI_API_KEY=VOTRE_CLE_API_ICI
+```
 
-3. **Important** : Configurer l'URL Ollama dans `AppModule.kt` :
+3. **Important** : Configurer l'URL Ollama dans `AppModule.kt` (si vous utilisez Ollama) :
    - Pour **émulateur Android** : `http://10.0.2.2:11434/`
    - Pour **appareil physique** : `http://<votre-ip-locale>:11434/`
 
@@ -118,6 +146,20 @@ cd RiseWell
 1. **Créer un profil** : Cliquez sur l'icône profil et renseignez vos informations
 2. **Choisir un persona** : Sélectionnez le coach qui vous correspond
 3. **Commencer à discuter** : Utilisez les actions rapides ou posez vos questions
+
+### Système AI Dual (Ollama + Gemini)
+
+L'application fonctionne avec un système de fallback automatique :
+
+1. **Priorité à Ollama** (si disponible) :
+   - ✅ Confidentialité totale (tout reste local)
+   - ✅ Gratuit et illimité
+   - ✅ Rapide
+
+2. **Fallback vers Gemini** (si Ollama indisponible) :
+   - ✅ Aucune configuration Ollama nécessaire
+   - ✅ Fonctionne partout (cloud)
+   - ✅ Bascule transparente
 
 ### Actions Rapides par Persona
 
@@ -172,18 +214,6 @@ data class Message(
 )
 ```
 
-### PersonaSetting
-```kotlin
-data class PersonaSetting(
-    val personaName: String,
-    val systemPromptTemplate: String,
-    val temperature: Float,
-    val maxTokens: Int,
-    val responseLength: ResponseLength,
-    val tone: String
-)
-```
-
 ## 🎨 Templates de Prompts
 
 Chaque persona dispose d'un template de prompt optimisé qui intègre automatiquement le profil utilisateur :
@@ -198,20 +228,30 @@ Keep it safe and appropriate for the user's level.
 Tone: encouraging and motivational."""
 ```
 
-Les variables `{age}`, `{weight}`, etc. sont automatiquement remplacées par les données du profil utilisateur.
-
 ## 🔒 Sécurité & Vie Privée
 
-- ✅ **Toutes les données restent locales** (Room database)
-- ✅ **IA locale avec Ollama** (pas de données envoyées au cloud)
+- ✅ **Données locales par défaut** (Room database + Ollama local)
+- ✅ **Backup cloud sécurisé** (Gemini AI avec HTTPS)
 - ✅ **Pas de tracking ni d'analytics tiers**
-- ✅ **Chiffrement de la base de données** (à activer en production)
+- ✅ **Chiffrement des communications** (TLS)
+- ✅ **Clé API utilisateur** (chacun utilise sa propre clé)
+
+## 🎯 Objectifs Atteints
+
+- ✅ Intégration de 2 modèles d'IA (Ollama local + Gemini cloud)
+- ✅ Architecture MVVM complète avec Repository Pattern
+- ✅ UI Material3 moderne avec Jetpack Compose
+- ✅ Persistance des données avec Room
+- ✅ Injection de dépendances avec Hilt
+- ✅ Gestion d'erreurs et fallback automatique
+- ✅ 4 personas distincts avec prompts personnalisés
+- ✅ System de profil utilisateur complet
+- ✅ Build Gradle optimisé (KSP au lieu de Kapt)
 
 ## 🚧 Améliorations Futures
 
 ### Fonctionnalités
 - [ ] Notifications quotidiennes (WorkManager)
-- [ ] Historique des conversations (écran dédié)
 - [ ] Export des plans en PDF
 - [ ] Graphiques de progression
 - [ ] Mode sombre
@@ -222,8 +262,11 @@ Les variables `{age}`, `{weight}`, etc. sont automatiquement remplacées par les
 - [ ] Tests UI (Compose Testing)
 - [ ] CI/CD (GitHub Actions)
 - [ ] Chiffrement Room
-- [ ] Backup automatique
 - [ ] Support multi-langues
+
+### Liens vers la vidéo
+
+[Ajouter ici le lien vers la vidéo de démonstration]
 
 ## 📝 Licence
 
@@ -237,10 +280,6 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 3. Commit vos changements (`git commit -m 'Add AmazingFeature'`)
 4. Push vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
-
-## 📧 Contact
-
-Pour toute question ou suggestion : [votre-email]
 
 ---
 
