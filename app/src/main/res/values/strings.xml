@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">RiseWell</string>
+    
+    <!-- App Description -->
+    <string name="app_subtitle">Votre coach santé IA</string>
+    
+    <!-- Navigation -->
+    <string name="nav_back">Retour</string>
+    <string name="nav_profile">Profil</string>
+    
+    <!-- Home Screen -->
+    <string name="home_title">RiseWell</string>
+    <string name="home_choose_persona">Choisissez votre assistant :</string>
+    
+    <!-- Personas -->
+    <string name="persona_coach_title">Coach Sportif</string>
+    <string name="persona_coach_desc">Plans d\'entraînement personnalisés</string>
+    <string name="persona_nutritionist_title">Nutritionniste</string>
+    <string name="persona_nutritionist_desc">Plans de repas équilibrés</string>
+    <string name="persona_motivator_title">Motivateur</string>
+    <string name="persona_motivator_desc">Inspiration quotidienne</string>
+    <string name="persona_consultant_title">Consultant</string>
+    <string name="persona_consultant_desc">Conseils santé globaux</string>
+    
+    <!-- Chat Screen -->
+    <string name="chat_input_hint">Tapez votre message…</string>
+    <string name="chat_send">Envoyer</string>
+    <string name="chat_loading">En train de réfléchir…</string>
+    <string name="chat_quick_actions">Actions rapides</string>
+    
+    <!-- Profile Screen -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_age">Âge</string>
+    <string name="profile_weight">Poids (kg)</string>
+    <string name="profile_height">Taille (cm)</string>
+    <string name="profile_activity_level">Niveau d\'activité</string>
+    <string name="profile_goal">Objectif</string>
+    <string name="profile_save">Enregistrer le profil</string>
+    
+    <!-- Activity Levels -->
+    <string name="activity_sedentary">Sédentaire</string>
+    <string name="activity_light_active">Légèrement actif</string>
+    <string name="activity_moderate_active">Modérément actif</string>
+    <string name="activity_very_active">Très actif</string>
+    
+    <!-- Goals -->
+    <string name="goal_lose_weight">Perdre du poids</string>
+    <string name="goal_maintain_weight">Maintenir le poids</string>
+    <string name="goal_gain_muscle">Gagner du muscle</string>
+    <string name="goal_improve_fitness">Améliorer la forme</string>
+    <string name="goal_better_health">Meilleure santé</string>
+    
+    <!-- Errors -->
+    <string name="error_connection">Erreur de connexion à Ollama</string>
+    <string name="error_generic">Une erreur est survenue</string>
+    <string name="error_close">Fermer</string>
+</resources>
