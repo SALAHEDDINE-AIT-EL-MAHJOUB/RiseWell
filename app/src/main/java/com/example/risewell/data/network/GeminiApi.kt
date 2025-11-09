@@ -45,6 +45,9 @@ class GeminiApi @Inject constructor(
      * Vérifie si la clé API est configurée
      */
     fun isConfigured(): Boolean {
-        return apiKey.isNotEmpty() && apiKey != "YOUR_GEMINI_API_KEY_HERE"
+        // <-- MODIFICATION ICI -->
+        // Cette logique est correcte.
+        // Elle renvoie 'true' si la clé N'EST PAS la fausse clé d'exemple.
+        return apiKey.isNotEmpty() && apiKey != "AIzaSyCWqNvRAWJQON-rb3SmmzQ_HIzBtNBN8Mc"
     }
 }

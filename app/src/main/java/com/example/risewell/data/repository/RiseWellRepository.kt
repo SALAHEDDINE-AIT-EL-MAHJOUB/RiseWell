@@ -20,6 +20,9 @@ class RiseWellRepository @Inject constructor(
     private val ollamaApi: OllamaApi,
     private val geminiApi: GeminiApi
 ) {
+    // ... (les autres fonctions comme getUserProfile, saveUserProfile, etc. restent ici)
+    // ... (ne les supprimez pas)
+
     // User Profile operations
     fun getUserProfile(): Flow<UserProfile?> = userProfileDao.getUserProfile()
 
@@ -72,7 +75,8 @@ class RiseWellRepository @Inject constructor(
         return chatDao.getMessagesByConversation(conversationId)
     }
 
-    // AI interaction
+
+    // <-- MODIFICATION DE LA LOGIQUE ICI -->
     suspend fun generateAiResponse(
         persona: Persona,
         userMessage: String,
@@ -81,35 +85,41 @@ class RiseWellRepository @Inject constructor(
         return try {
             val prompt = buildPrompt(persona, userMessage, userProfile)
             val settings = personaSettingDao.getPersonaSettings(persona.name).first()
-            
-            // Essayer d'abord avec Ollama
-            try {
-                val request = GenerateRequest(
-                    model = "llama3",
-                    prompt = prompt,
-                    temperature = settings?.temperature ?: 0.7f,
-                    max_tokens = settings?.maxTokens ?: 600
-                )
-                
-                val response = ollamaApi.generateResponse(request)
-                Result.success(response.response)
-            } catch (ollamaError: Exception) {
-                // Si Ollama échoue, essayer Gemini comme backup
-                if (geminiApi.isConfigured()) {
+
+            // Vérifie si Gemini est configuré (logique "si non" de votre part)
+            if (geminiApi.isConfigured()) {
+                // Utiliser Gemini (parce que la clé est remplie)
+                try {
                     val geminiResponse = geminiApi.generateResponse(prompt)
                     if (geminiResponse != null) {
                         Result.success(geminiResponse)
                     } else {
-                        Result.failure(Exception("Ollama et Gemini ont échoué. Vérifiez votre configuration."))
+                        Result.failure(Exception("Gemini est configuré mais a retourné une réponse vide."))
                     }
-                } else {
-                    Result.failure(Exception("Ollama n'est pas disponible et Gemini n'est pas configuré. Erreur: ${ollamaError.message}"))
+                } catch (geminiError: Exception) {
+                    Result.failure(Exception("Erreur avec Gemini (vérifiez votre clé API) : ${geminiError.message}"))
+                }
+            } else {
+                // Utiliser Ollama (parce que la clé Gemini est vide ou est l'exemple)
+                try {
+                    val request = GenerateRequest(
+                        model = "llama3",
+                        prompt = prompt,
+                        temperature = settings?.temperature ?: 0.7f,
+                        max_tokens = settings?.maxTokens ?: 600
+                    )
+                    val response = ollamaApi.generateResponse(request)
+                    Result.success(response.response)
+                } catch (ollamaError: Exception) {
+                    // L'erreur que vous voyiez avant
+                    Result.failure(Exception("Gemini n'est pas configuré et Ollama a échoué. Erreur Ollama: ${ollamaError.message}"))
                 }
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+    // <-- FIN DE LA MODIFICATION -->
 
     private fun buildPrompt(
         persona: Persona,
@@ -117,7 +127,7 @@ class RiseWellRepository @Inject constructor(
         userProfile: UserProfile?
     ): String {
         val template = PersonaPrompts.getTemplateForPersona(persona)
-        
+
         val profileData = if (userProfile != null) {
             mapOf(
                 "age" to userProfile.age.toString(),
