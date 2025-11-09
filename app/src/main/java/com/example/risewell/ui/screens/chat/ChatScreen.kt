@@ -256,42 +256,74 @@ fun ChatInput(
 
     Surface(
         modifier = modifier
-            .fillMaxWidth(),
-        tonalElevation = 6.dp,
-        shape = RoundedCornerShape(16.dp),
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        tonalElevation = 8.dp,
+        shadowElevation = 4.dp,
+        shape = RoundedCornerShape(24.dp),
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             TextField(
                 value = value,
                 onValueChange = onValueChange,
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("Tapez votre message...") },
+                placeholder = { 
+                    Text(
+                        "Tapez votre message...",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    ) 
+                },
                 maxLines = 4,
                 enabled = enabled,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                textStyle = MaterialTheme.typography.bodyLarge
             )
 
-            IconButton(
+            Surface(
                 onClick = {
                     if (enabled && value.isNotBlank()) {
                         onSend()
                         focusManager.clearFocus()
                     }
                 },
-                modifier = Modifier.padding(start = 8.dp),
-                enabled = enabled && value.isNotBlank()
+                enabled = enabled && value.isNotBlank(),
+                shape = RoundedCornerShape(16.dp),
+                color = if (enabled && value.isNotBlank()) 
+                    MaterialTheme.colorScheme.primary 
+                else 
+                    MaterialTheme.colorScheme.surfaceVariant,
+                modifier = Modifier.size(48.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Send,
-                    contentDescription = "Envoyer",
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        contentDescription = "Envoyer",
+                        tint = if (enabled && value.isNotBlank())
+                            MaterialTheme.colorScheme.onPrimary
+                        else
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
         }
     }
