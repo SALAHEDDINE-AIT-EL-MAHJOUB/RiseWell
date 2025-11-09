@@ -1,16 +1,24 @@
 package com.example.risewell.ui.screens.home
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.example.risewell.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.risewell.data.model.Persona
@@ -27,10 +35,15 @@ fun HomeScreen(
             TopAppBar(
                 title = { 
                     Column {
-                        Text("RiseWell")
+                        Text(
+                            "RiseWell",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.headlineSmall
+                        )
                         Text(
                             "Votre coach santé IA",
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },
@@ -38,35 +51,44 @@ fun HomeScreen(
                     IconButton(onClick = onProfileClick) {
                         Icon(
                             imageVector = Icons.Default.Person,
-                            contentDescription = "Profil"
+                            contentDescription = "Profil",
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
         }
     ) { padding ->
-        Column(
-            modifier = modifier
-                .padding(padding)
-                .padding(16.dp)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                top = padding.calculateTopPadding() + 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 0.dp
+            ),
+            modifier = modifier.fillMaxSize()
         ) {
-            Text(
-                text = "Choisissez votre assistant :",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+            item(span = { GridItemSpan(2) }) {
+                Text(
+                    text = "Choisissez votre assistant :",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
             
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(Persona.values()) { persona ->
-                    PersonaCard(
-                        persona = persona,
-                        onClick = { onPersonaSelected(persona) }
-                    )
-                }
+            items(Persona.values()) { persona ->
+                PersonaCard(
+                    persona = persona,
+                    onClick = { onPersonaSelected(persona) }
+                )
             }
         }
     }
@@ -78,41 +100,56 @@ fun PersonaCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ElevatedCard(
+    Surface(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(180.dp),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = getPersonaContainerColor(persona)
-        )
+            .height(200.dp),
+        shape = RoundedCornerShape(20.dp),
+        color = getPersonaContainerColor(persona)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = getPersonaIcon(persona),
-                contentDescription = null,
-                modifier = Modifier.size(48.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = getPersonaTitle(persona),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = getPersonaDescription(persona),
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            // Image with rounded corners and shadow effect
+            Surface(
+                modifier = Modifier
+                    .size(80.dp),
+                shape = RoundedCornerShape(16.dp),
+                tonalElevation = 2.dp
+            ) {
+                Image(
+                    painter = painterResource(id = getPersonaImage(persona)),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
+            
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = getPersonaTitle(persona),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Text(
+                    text = getPersonaDescription(persona),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2
+                )
+            }
         }
     }
 }
@@ -127,12 +164,12 @@ private fun getPersonaContainerColor(persona: Persona): androidx.compose.ui.grap
     }
 }
 
-private fun getPersonaIcon(persona: Persona): ImageVector {
+private fun getPersonaImage(persona: Persona): Int {
     return when (persona) {
-        Persona.COACH -> Icons.Default.Favorite
-        Persona.NUTRITIONIST -> Icons.Default.ShoppingCart
-        Persona.MOTIVATOR -> Icons.Default.Star
-        Persona.CONSULTANT -> Icons.Default.Build
+        Persona.COACH -> R.drawable.coach
+        Persona.NUTRITIONIST -> R.drawable.nutrition
+        Persona.MOTIVATOR -> R.drawable.motivation
+        Persona.CONSULTANT -> R.drawable.persona_consultant
     }
 }
 

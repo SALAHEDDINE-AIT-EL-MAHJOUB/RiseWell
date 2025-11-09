@@ -9,6 +9,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -248,32 +252,45 @@ fun ChatInput(
     enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
+    val focusManager = LocalFocusManager.current
+
     Surface(
-        modifier = modifier,
-        shadowElevation = 8.dp
+        modifier = modifier
+            .fillMaxWidth(),
+        tonalElevation = 6.dp,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
+            TextField(
                 value = value,
                 onValueChange = onValueChange,
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("Tapez votre message...") },
-                maxLines = 3,
-                enabled = enabled
+                maxLines = 4,
+                enabled = enabled,
+                shape = RoundedCornerShape(12.dp)
             )
+
             IconButton(
-                onClick = onSend,
+                onClick = {
+                    if (enabled && value.isNotBlank()) {
+                        onSend()
+                        focusManager.clearFocus()
+                    }
+                },
                 modifier = Modifier.padding(start = 8.dp),
                 enabled = enabled && value.isNotBlank()
             ) {
                 Icon(
                     imageVector = Icons.Default.Send,
-                    contentDescription = "Envoyer"
+                    contentDescription = "Envoyer",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }

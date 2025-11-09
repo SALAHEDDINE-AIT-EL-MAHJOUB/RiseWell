@@ -17,6 +17,10 @@ import com.example.risewell.data.model.Persona
 import com.example.risewell.ui.screens.chat.ChatScreen
 import com.example.risewell.ui.screens.home.HomeScreen
 import com.example.risewell.ui.screens.profile.ProfileScreen
+import com.example.risewell.ui.screens.profile.ProfileViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import com.example.risewell.ui.theme.RiseWellTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,9 +54,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable("profile") {
+                                val profileViewModel: ProfileViewModel = hiltViewModel()
+                                val userProfile by profileViewModel.userProfile.collectAsState(initial = null)
+
                                 ProfileScreen(
-                                    userProfile = null,
-                                    onSaveProfile = { },
+                                    userProfile = userProfile,
+                                    onSaveProfile = { profile -> profileViewModel.saveProfile(profile) },
                                     onNavigateBack = {
                                         navController.navigateUp()
                                     }
