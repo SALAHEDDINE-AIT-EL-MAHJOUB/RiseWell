@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Install splash screen before super.onCreate()
         installSplashScreen()
-        
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -74,11 +74,11 @@ class MainActivity : ComponentActivity() {
                                 val persona = personaName?.let {
                                     try {
                                         Persona.valueOf(it)
-                                    } catch (e: IllegalArgumentException) {
+                                    } catch (_: IllegalArgumentException) {
                                         Persona.COACH
                                     }
                                 } ?: Persona.COACH
-                                
+
                                 ChatScreen(
                                     persona = persona,
                                     onNavigateBack = {

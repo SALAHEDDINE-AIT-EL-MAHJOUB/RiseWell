@@ -19,7 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -62,32 +62,47 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        Text(
-                            "RiseWell",
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = MaterialTheme.colorScheme.primary,
-                            letterSpacing = (-0.5).sp
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        // Logo en forme de cercle
+                        Surface(
+                            modifier = Modifier.size(56.dp),
+                            shape = CircleShape,
+                            color = Color.White,
+                            shadowElevation = 4.dp
                         ) {
-                            Box(
+                            Image(
+                                painter = painterResource(id = R.drawable.logo1),
+                                contentDescription = "RiseWell Logo",
+                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .size(8.dp)
-                                    .background(
-                                        MaterialTheme.colorScheme.tertiary,
-                                        CircleShape
-                                    )
+                                    .fillMaxSize()
+                                    .clip(CircleShape)
                             )
-                            Text(
-                                "Votre coach santé IA",
-                                fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontWeight = FontWeight.Medium
-                            )
+                        }
+                        
+                        Column {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(8.dp)
+                                        .background(
+                                            MaterialTheme.colorScheme.tertiary,
+                                            CircleShape
+                                        )
+                                )
+                                Text(
+                                    "Votre coach santé IA",
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
                         }
                     }
 
@@ -217,45 +232,18 @@ fun ModernPersonaCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 // Image moderne avec overlay
-                Box(
-                    modifier = Modifier.size(80.dp)
+                Surface(
+                    modifier = Modifier.size(80.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    color = Color.White.copy(alpha = 0.95f),
+                    shadowElevation = 8.dp
                 ) {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        shape = RoundedCornerShape(20.dp),
-                        color = Color.White.copy(alpha = 0.95f),
-                        shadowElevation = 8.dp
-                    ) {
-                        Image(
-                            painter = painterResource(id = getPersonaImage(persona)),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-
-                    // Badge décoratif
-                    Surface(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .align(Alignment.BottomEnd)
-                            .offset(x = 6.dp, y = 6.dp),
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.secondary,
-                        shadowElevation = 4.dp
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.ArrowForward,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
-                    }
+                    Image(
+                        painter = painterResource(id = getPersonaImage(persona)),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
 
                 Column(

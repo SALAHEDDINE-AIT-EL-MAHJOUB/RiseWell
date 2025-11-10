@@ -13,9 +13,3 @@ data class Conversation(
     val title: String? = null
 )
 
-enum class Persona {
-    COACH,
-    NUTRITIONIST,
-    MOTIVATOR,
-    CONSULTANT
-}

@@ -15,7 +15,7 @@ import com.example.risewell.data.model.UserProfile
         Message::class,
         PersonaSetting::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

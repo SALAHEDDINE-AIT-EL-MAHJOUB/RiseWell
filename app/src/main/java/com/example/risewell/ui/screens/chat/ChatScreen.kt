@@ -8,8 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,7 +75,7 @@ fun ChatScreen(
                             )
                         ) {
                             Icon(
-                                imageVector = Icons.Default.ArrowBack,
+                              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Retour",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -486,7 +486,7 @@ fun ModernChatInput(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Send,
+                            imageVector = Icons.AutoMirrored.Filled.Send,
                         contentDescription = "Envoyer",
                         tint = if (enabled && value.isNotBlank())
                             Color.White

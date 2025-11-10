@@ -5,7 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -29,6 +29,7 @@ fun ProfileScreen(
     var age by remember { mutableStateOf(userProfile?.age?.toString() ?: "") }
     var weight by remember { mutableStateOf(userProfile?.weightKg?.toString() ?: "") }
     var height by remember { mutableStateOf(userProfile?.heightCm?.toString() ?: "") }
+    var name by remember { mutableStateOf(userProfile?.name ?: "") }
     var selectedActivityLevel by remember {
         mutableStateOf(userProfile?.activityLevel ?: ActivityLevel.MODERATE_ACTIVE)
     }
@@ -42,6 +43,7 @@ fun ProfileScreen(
     // keep local fields in sync if the userProfile coming from parent changes (e.g. after saving)
     LaunchedEffect(userProfile) {
         userProfile?.let { profile ->
+            name = profile.name
             age = profile.age.toString()
             weight = profile.weightKg.toString()
             height = profile.heightCm.toString()
@@ -59,7 +61,7 @@ fun ProfileScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -103,7 +105,7 @@ fun ProfileScreen(
 
                 Column {
                     Text(
-                        text = "Mon profil",
+                        text = if (name.isNotBlank()) name else "Mon profil",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -124,6 +126,13 @@ fun ProfileScreen(
                     elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        OutlinedTextField(
+                            value = name,
+                            onValueChange = { name = it },
+                            label = { Text("Nom") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
                         OutlinedTextField(
                             value = age,
                             onValueChange = { age = it },
@@ -165,6 +174,7 @@ fun ProfileScreen(
                     onClick = {
                         val profile = UserProfile(
                             id = userProfile?.id ?: 0,
+                            name = name,
                             age = age.toIntOrNull() ?: 0,
                             weightKg = weight.toFloatOrNull() ?: 0f,
                             heightCm = height.toIntOrNull() ?: 0,
@@ -190,6 +200,7 @@ fun ProfileScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Nom: ${name.ifBlank { "-" }}", style = MaterialTheme.typography.bodyLarge)
                         Text("Age: ${age.ifBlank { "-" }}", style = MaterialTheme.typography.bodyLarge)
                         Text("Weight: ${weight.ifBlank { "-" }} kg", style = MaterialTheme.typography.bodyLarge)
                         Text("Height: ${height.ifBlank { "-" }} cm", style = MaterialTheme.typography.bodyLarge)
