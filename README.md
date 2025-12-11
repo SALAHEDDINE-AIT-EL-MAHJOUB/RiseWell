@@ -263,6 +263,16 @@ Tone: encouraging and motivational."""
 
 [Plan de la vidéo et Script Audio](VIDEO_PLAN.md)
 
+### Démonstration
+
+https://github.com/user-attachments/assets/placeholder-guid
+
+> **Note** : Si la vidéo ne s'affiche pas directement ci-dessous, vous pouvez la télécharger ou la voir ici : [Vidéo de démonstration](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4)
+
+<video src="app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4" controls="controls" style="max-width: 100%;">
+  Votre navigateur ne supporte pas la lecture de vidéos.
+</video>
+
 
 
 ## 👥 Contribution
