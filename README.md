@@ -265,11 +265,9 @@ Tone: encouraging and motivational."""
 
 ### Démonstration
 
-> **Note** : Si la vidéo ne s'affiche pas directement ci-dessous, vous pouvez la télécharger ou la voir ici : [Vidéo de démonstration](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4)
+[![Regarder la vidéo](app/src/main/res/drawable/logo.jpg)](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4)
 
-<video src="app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4" controls="controls" style="max-width: 100%;">
-  Votre navigateur ne supporte pas la lecture de vidéos.
-</video>
+> **Cliquez sur l'image ci-dessus pour voir la vidéo** ou [cliquez ici pour la télécharger](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4).
 
 
 
