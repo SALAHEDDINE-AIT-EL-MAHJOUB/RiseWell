@@ -263,6 +263,12 @@ Tone: encouraging and motivational."""
 
 [Plan de la vidéo et Script Audio](VIDEO_PLAN.md)
 
+### Démonstration
+
+[![Regarder la vidéo](app/src/main/res/drawable/logo.jpg)](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4)
+
+> **Cliquez sur l'image ci-dessus pour voir la vidéo** ou [cliquez ici pour la télécharger](app/src/main/res/drawable/Vidéo%20de%20démonstration.mp4).
+
 
 
 ## 👥 Contribution
