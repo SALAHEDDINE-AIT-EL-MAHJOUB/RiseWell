@@ -1,17 +1,12 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/TIr6ybvI)
 
-# RiseWell - Healthy Coach Application 🏋️‍♂️💪
 
-> **Université Côte d'Azur - DS4H - EMSI - IA2**  
-> Cours de Programmation Mobile et IA - Leo Donati  
-> TD3 - Soyez créatif avec l'IA
-
-Application mobile Android de coaching santé avec plusieurs personas IA pilotés par Ollama (local) et Gemini AI (backup cloud).
+Application mobile Android de coaching santé avec plusieurs personas IA pilotés  et Gemini AI (backup cloud).
 
 ## 👥 Membres du groupe
 
-- [Votre nom]
-- [Nom coéquipier]
+- [salaheddine ait el mahjoub]
+- [omar essafi ]
+- [yahya gabbas]
 
 ## 📱 Fonctionnalités
 
@@ -266,11 +261,9 @@ Tone: encouraging and motivational."""
 
 ### Liens vers la vidéo
 
-[Ajouter ici le lien vers la vidéo de démonstration]
+[Plan de la vidéo et Script Audio](VIDEO_PLAN.md)
 
-## 📝 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 👥 Contribution
 
@@ -283,4 +276,3 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ---
 
-**Fait avec ❤️ et Kotlin + Jetpack Compose**
